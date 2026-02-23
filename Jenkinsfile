@@ -3,13 +3,18 @@ pipeline {
 
     stages {
 
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', credentialsId: 'github-pat', url: 'https://github.com/shivanshi180/devops_pro.git'
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 sh '''
                     python3 -m venv venv
-                    . venv/bin/activate
-                    pip install --upgrade pip
-                    pip install fastapi uvicorn
+                    ./venv/bin/pip install --upgrade pip
+                    ./venv/bin/pip install -r requirements.txt
                 '''
             }
         }
@@ -17,9 +22,8 @@ pipeline {
         stage('Run App') {
             steps {
                 sh '''
-                    . venv/bin/activate
                     echo "Starting FastAPI..."
-                    uvicorn main:app --host 0.0.0.0 --port 8000 &
+                    ./venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000
                 '''
             }
         }
