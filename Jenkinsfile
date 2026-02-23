@@ -5,7 +5,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', credentialsId: 'github-pat', url: 'https://github.com/shivanshi180/devops_pro.git'
+                git branch: 'main', credentialsId: '49acb13a-3b47-47d6-984e-01bb0100745b', url: 'https://github.com/shivanshi180/devops_pro.git'
             }
         }
 
@@ -13,7 +13,7 @@ pipeline {
             steps {
                 sh '''
                     python3 -m venv venv
-                    chmod -R 755 venv
+                    venv/bin/python -m ensurepip --upgrade
                     ./venv/bin/pip install --upgrade pip
                     ./venv/bin/pip install -r requirements.txt
                 '''
