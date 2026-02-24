@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Starting FastAPI..."
-                    timeout 10 venv/bin/python -m uvicorn main:app --port 9000 || true
+                    timeout 10 venv/bin/python -m uvicorn main:app --port 8000 || true
                 '''
             }
         }
