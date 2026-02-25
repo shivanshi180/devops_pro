@@ -25,12 +25,16 @@ pipeline {
         stage('Run App') {
             steps {
                 sh '''
+                    echo "Stopping old app..."
+                    pkill -f "uvicorn main:app" || true
+                    
                     echo "Starting FastAPI..."
-                    nohup venv/bin/python -m uvicorn main:app 
+                    nohup venv/bin/python -m uvicorn main:app \
                     --host 0.0.0.0 \
-                    --port 8000 || true
+                    --port 8000 \
                     > app.log 2>&1 &
 
+                    sleep 3
                     echo "App started successfully"
                 '''
             }
