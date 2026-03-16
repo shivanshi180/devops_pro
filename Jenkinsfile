@@ -35,14 +35,13 @@ pipeline {
         stage('SonarQube Scan') {
             steps {
                 withCredentials([string(credentialsId: 'sonar-token-shivanshi', variable: 'SONAR_TOKEN')]) {
-                    sh '''
+                    sh """
                     sonar-scanner \
                     -Dsonar.projectKey=devops_pro \
                     -Dsonar.sources=. \
                     -Dsonar.host.url=http://ec2-13-202-47-19.ap-south-1.compute.amazonaws.com:15998/
                     -Dsonar.token=${SONAR_TOKEN}
-                    
-                    '''
+                    """
                 }
             }
         }
