@@ -37,9 +37,9 @@ pipeline {
                 withSonarQubeEnv('SonarQube') {
                     sh '''
                     sonar-scanner \
-                    -Dsonar.projectKey=${SONAR_PROJECT} \
+                    -Dsonar.projectKey=devops_pro \
                     -Dsonar.sources=. \
-                    -Dsonar.host.url=${SONAR_URL}
+                    -Dsonar.host.url=http://ec2-13-202-47-19.ap-south-1.compute.amazonaws.com:15998/
                     '''
                 }
             }
