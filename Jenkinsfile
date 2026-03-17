@@ -50,11 +50,11 @@ pipeline {
         stage('Snyk Scan') {
             steps {
                 withCredentials([string(credentialsId: 'snyk-token-shivanshi', variable: 'SNYK_TOKEN')]) {
-                    sh """
-                    source venv/bin/activatE 
+                    sh '''
+                    . .venv/bin/activate
                     snyk test --all-projects --auth=$SNYK_TOKEN
                     snyk monitor --all-projects --file=requirements.txt --auth=$SNYK_TOKEN
-                    """
+                    '''
                 }
             }
         }
