@@ -26,33 +26,35 @@ pipeline {
                 sh '''
                     rm -rf venv
                     python3 -m venv venv
-                    venv/bin/pip install --upgrade pip
-                    venv/bin/pip install -r requirements.txt
+                    . venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
                 '''
             }
         }
-
-        stage('SonarQube Scan') {
-            steps {
-                withCredentials([string(credentialsId: 'sonar-token-shivanshi', variable: 'SONAR_TOKEN')]) {
-                    sh """
-                    echo Token length: \${#SONAR_TOKEN}
-                    sonar-scanner \
-                    -Dsonar.projectKey=sonarqube_demo_pro \
-                    -Dsonar.sources=. \
-                    -Dsonar.host.url=http://ec2-13-202-47-19.ap-south-1.compute.amazonaws.com:15998 \
-                    -Dsonar.login=$SONAR_TOKEN
-                    """
-                }
-            }
-        }
+//
+//        stage('SonarQube Scan') {
+//            steps {
+//                withCredentials([string(credentialsId: 'sonar-token-shivanshi', variable: 'SONAR_TOKEN')]) {
+//                    sh """
+//                    echo Token length: \${#SONAR_TOKEN}
+//                    sonar-scanner \
+//                    -Dsonar.projectKey=sonarqube_demo_pro \
+//                    -Dsonar.sources=. \
+//                    -Dsonar.host.url=http://ec2-13-202-47-19.ap-south-1.compute.amazonaws.com:15998 \
+//                    -Dsonar.login=$SONAR_TOKEN
+//                    """
+//                }
+//            }
+//        }
 
         stage('Snyk Scan') {
             steps {
                 withCredentials([string(credentialsId: 'snyk-token-shivanshi', variable: 'SNYK_TOKEN')]) {
                     sh '''
-                    . .venv/bin/activate
-                    snyk test --all-projects --auth=$SNYK_TOKEN
+                    . venv/bin/activate
+                    snyk auth $SNYK_TOKEN
+                    snyk test --all-projects 
                     snyk monitor --all-projects --file=requirements.txt --auth=$SNYK_TOKEN
                     '''
                 }
