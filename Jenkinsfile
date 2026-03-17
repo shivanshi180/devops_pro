@@ -55,7 +55,7 @@ pipeline {
                     . venv/bin/activate
                     snyk auth $SNYK_TOKEN
                     snyk test --all-projects 
-                    snyk monitor --all-projects --file=requirements.txt --auth=$SNYK_TOKEN
+                    snyk monitor --all-projects 
                     '''
                 }
             }
