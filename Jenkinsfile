@@ -32,21 +32,21 @@ pipeline {
                 '''
             }
         }
-//
-//        stage('SonarQube Scan') {
-//            steps {
-//                withCredentials([string(credentialsId: 'sonar-token-shivanshi', variable: 'SONAR_TOKEN')]) {
-//                    sh """
-//                    echo Token length: \${#SONAR_TOKEN}
-//                    sonar-scanner \
-//                    -Dsonar.projectKey=sonarqube_demo_pro \
-//                    -Dsonar.sources=. \
-//                    -Dsonar.host.url=http://ec2-13-202-47-19.ap-south-1.compute.amazonaws.com:15998 \
-//                    -Dsonar.login=$SONAR_TOKEN
-//                    """
-//                }
-//            }
-//        }
+
+        stage('SonarQube Scan') {
+            steps {
+                withCredentials([string(credentialsId: 'sonar-token-shivanshi', variable: 'SONAR_TOKEN')]) {
+                    sh """
+                    echo Token length: \${#SONAR_TOKEN}
+                    sonar-scanner \
+                    -Dsonar.projectKey=sonarqube_demo_pro \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=http://ec2-13-202-47-19.ap-south-1.compute.amazonaws.com:15998 \
+                    -Dsonar.login=$SONAR_TOKEN
+                    """
+                }
+            }
+        }
 
         stage('Snyk Scan') {
             steps {
@@ -84,7 +84,7 @@ pipeline {
                 sh '''
                 echo "Starting ZAP Scan..."
 
-                ~/ZAP_*/zap.sh -cmd \
+                /opt/zap/zap.sh -cmd \
                 -quickurl http://127.0.0.1:8000 \
                 -quickout zap_report.html \
                 -quickprogress
